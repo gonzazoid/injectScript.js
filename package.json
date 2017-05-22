@@ -1,0 +1,38 @@
+{
+  "name": "gonzazoid.injectscript.js",
+  "version": "1.0.1",
+  "description": "",
+  "private": true,
+  "main": "",
+  "scripts": {
+    "pretest": "npm run build && webpack --config configs/webpack.config.js",
+    "test": "cp assets/test.html build/ && cd build && mocha tests.js",
+    "posttest": "rm ./build/test*",
+    "build": "rm -rf ./build && mkdir ./build && tslint -c ./configs/tslint.json lib/index.ts lib/tests.ts && tsc  -p './configs/tsconfig.json' && node ./build.js && cp ./LICENSE ./build/ && cp README.md ./build/"
+  },
+  "author": "Timur Appaev <alloaolla@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gonzazoid/injectScript.js.git"
+  },
+  "devDependencies": {
+    "@types/chai": "^3.5.1",
+    "@types/mocha": "^2.2.41",
+    "@types/node": "^7.0.13",
+    "@types/selenium-webdriver": "^3.0.4",
+    "chai": "^3.5.0",
+    "chromedriver": "^2.29.0",
+    "mocha": "^3.3.0",
+    "selenium-webdriver": "^3.4.0",
+    "ts-loader": "^2.0.3",
+    "tslint": "4.0.2",
+    "tslint-loader": "^3.5.3",
+    "typescript": "2.1.4",
+    "webpack": "^2.5.1"
+  },
+  "dependencies": {
+    "gonzazoid.sprintf.js": "^1.0.3",
+    "serialize-error": "^2.1.0"
+  }
+}
