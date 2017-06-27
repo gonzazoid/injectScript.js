@@ -10,7 +10,7 @@ The script is designed to work in the content scripts of extensions of chrome/op
 If we need to run some code in the user land in the content script (such scripts run in their own environment and have access only to the DOM of the open page, but not to the variables and everything happening in the js on the user's side ([read more](https://developer.chrome.com/extensions/content_scripts)), then of course we go to SO and read articles like these:
 * [Can I add javascript dynamically to an existing script element](https://stackoverflow.com/questions/3619484/can-i-add-javascript-dynamically-to-an-existing-script-element)
 
-* [Adding <script> element to the DOM and have the javascript run?](https://stackoverflow.com/questions/6432984/adding-script-element-to-the-dom-and-have-the-javascript-run)
+* [Adding &lt;script&gt; element to the DOM and have the javascript run?](https://stackoverflow.com/questions/6432984/adding-script-element-to-the-dom-and-have-the-javascript-run)
 
 * [document.createElement(“script”) synchronously](https://stackoverflow.com/questions/3248384/document-createelementscript-synchronously)
 
