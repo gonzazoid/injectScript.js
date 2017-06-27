@@ -8,7 +8,7 @@
     "pretest": "npm run build && webpack --config configs/webpack.config.js",
     "test": "cp assets/test.html build/ && cd build && mocha tests.js",
     "posttest": "rm ./build/test*",
-    "build": "rm -rf ./build && mkdir ./build && tslint -c ./configs/tslint.json lib/index.ts lib/tests.ts && tsc  -p './configs/tsconfig.json' && node ./build.js && cp ./LICENSE ./build/ && cp README.md ./build/"
+    "build": "rm -rf ./build && mkdir ./build && tslint -c ./configs/tslint.json lib/index.ts lib/tests.ts && tsc  -p './configs/tsconfig.json' && node ./build.js && cp ./LICENSE ./build/ && cp README* ./build/"
   },
   "author": "Timur Appaev <alloaolla@gmail.com>",
   "license": "MIT",
