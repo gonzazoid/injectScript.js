@@ -1,6 +1,6 @@
 {
   "name": "gonzazoid.injectscript.js",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "",
   "private": true,
   "main": "",
@@ -32,7 +32,6 @@
     "webpack": "^2.5.1"
   },
   "dependencies": {
-    "gonzazoid.sprintf.js": "^1.0.3",
-    "serialize-error": "^2.1.0"
+    "gonzazoid.sprintf.js": "^1.0.3"
   }
 }
