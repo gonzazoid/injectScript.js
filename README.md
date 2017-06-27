@@ -21,7 +21,7 @@ Usage (typescript, add this to content script of your extension, you can also us
 
 ```npm install -save gonzazoid.injectscript.js```
 
-```
+```typescript
 import {injectScript} from 'gonzazoid.injectscript.js';
 
 const payload = function(some_param: string){
@@ -34,7 +34,7 @@ console.log(res); // ['some', 'test', 'string']
 
 or find out the value of a variable (the user space variables are not available in the script content):
 for example, find out the version of JQuery
-```
+```typescript
 declare var $: any;
 
 import {injectScript} from 'gonzazoid.injectscript.js';
@@ -50,7 +50,7 @@ injectScript(document, checker)
 
 ```
 or find out the version of Jquery correctly:
-```
+```typescript
 declare var $: any;
 declare var window: Window;
 
@@ -69,7 +69,7 @@ const version = await injectScript(document, src);
 
 ```
 Notice how we pass our modules to the user space - we serialize them into a string. Not with each module it will pass. See:
-```
+```javascript
 const a = function(){
     b();
 }
@@ -82,14 +82,14 @@ module.exports = a;
 ```
 
 If we serialize the function imported from the module to the string, we get:
-```
+```javascript
 const a = function(){
     b();
 }
 ```
 You can not create a workable function from this string - the source of function `b` is lost. To avoid this, the function `a` must be described as follows
 
-```
+```javascript
 const a = function(){
     const b = function(){
 
