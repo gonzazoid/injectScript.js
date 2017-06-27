@@ -1,7 +1,7 @@
 # <img src="https://img.shields.io/npm/v/gonzazoid.injectscript.js.svg"></img> <img src="https://img.shields.io/badge/strongly%20typed-npm-blue.svg"></img>
 
 # injectScript.js
-
+### injectScript: (document: Document, func: string | Function, ...params: any[]) => any;
 Скрипт предназначен для работы в контент-скриптах web-extension расширений хрома/оперы/файрфокса
 
 Если нам необходимо, находясь в контент скрипте запустиь какой либо код в user land(а контент скрипты запускаются в своем окружении и имеют доступ только к DOM открытой страницы, но не к переменным и всему происходящему в js на стороне пользователя ([тут подробнее](https://developer.chrome.com/extensions/content_scripts)), то мы конечно идем на SO и читаем статей типа этих:
@@ -27,7 +27,7 @@ const res = injectScript(document, payload, 'some.test.string');
 console.log(res); // ['some', 'test', 'string']
 ```
 
-или например узнать значение переменной (в контент скрипте переменные user space не доступны):
+или узнать значение переменной (в контент скрипте переменные user space не доступны):
 например узнать версию Jquery:
 ```
 declare var $: any;
