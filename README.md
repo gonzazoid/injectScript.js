@@ -103,7 +103,7 @@ module.exports = a;
 In this case, you can serialize it to string, put it onto the script tag and it'll properly work in user land.
 It's the reason why for this module I had to rewrite the function [serializeError](https://github.com/sindresorhus/serialize-error/blob/master/index.js) taken from the npm package [serialize-error](https://www.npmjs.com/package/serialize-error) - one of the auxiliary functions was described outside the main one - when imported, it was captured (javascript closures), when serialized it was be lost.
 
-We pass the `document` as the first parameter - this is done in order to be able to work with frames and not only with the current document, it also reduces the number of implicitly passed parameters that makes the function closer to its mathematical definition.
+We pass the `document` as the first parameter - this is done in order to be able to work with frames, not only with the current document, it also reduces the number of implicitly passed parameters that makes the function closer to its mathematical definition.
 
 The described technique can both read and write in everything that is in user land. In general, it's possible to make binding so that all userland will be mapped to the variable in the content script. Maybe I'll even write such a module. Later.
 
