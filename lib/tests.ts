@@ -59,4 +59,25 @@ describe('injectScript', function(){
             testDone();
         });
     });
+
+    it('with passing params without error', (testDone) => {
+        browser.findElement(By.id('test6')).getText().then((response:string) => {
+            expect('hello!!!').to.eql(JSON.parse(response));
+            testDone();
+        });
+    });
+
+    it('with passing params with quotas without error', (testDone) => {
+        browser.findElement(By.id('test7')).getText().then((response:string) => {
+            expect('hell\'o!!!').to.eql(JSON.parse(response));
+            testDone();
+        });
+    });
+
+    it('with passing params with quotas, two params, without error', (testDone) => {
+        browser.findElement(By.id('test8')).getText().then((response:string) => {
+            expect(true).to.eql(JSON.parse(response));
+            testDone();
+        });
+    });
 });

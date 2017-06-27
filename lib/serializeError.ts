@@ -1,49 +1,53 @@
+/* typescripted & rewrited from https://github.com/sindresorhus/serialize-error/blob/master/index.js */
+
 export const serializeError = function (value: any) {
+
     // https://www.npmjs.com/package/destroy-circular
     const destroyCircular = function (from: any, seen: any[]) {
-    let to: any;
-    if (Array.isArray(from)) {
-        to = [];
-    } else {
-        to = {};
-    }
-
-    seen.push(from);
-
-    Object.keys(from).forEach(function (key: string) {
-        const value = from[key];
-
-        if (typeof value === 'function') {
-            return;
+        let to: any;
+        if (Array.isArray(from)) {
+            to = [];
+        } else {
+            to = {};
         }
 
-        if (!value || typeof value !== 'object') {
-            to[key] = value;
-            return;
+        seen.push(from);
+
+        Object.keys(from).forEach(function (key: string) {
+            const value = from[key];
+
+            if (typeof value === 'function') {
+                return;
+            }
+
+            if (!value || typeof value !== 'object') {
+                to[key] = value;
+                return;
+            }
+
+            if (seen.indexOf(from[key]) === -1) {
+                to[key] = destroyCircular(from[key], seen.slice(0));
+                return;
+            }
+
+            to[key] = '[Circular]';
+        });
+
+        if (typeof from.name === 'string') {
+            to.name = from.name;
         }
 
-        if (seen.indexOf(from[key]) === -1) {
-            to[key] = destroyCircular(from[key], seen.slice(0));
-            return;
+        if (typeof from.message === 'string') {
+            to.message = from.message;
         }
 
-        to[key] = '[Circular]';
-    });
+        if (typeof from.stack === 'string') {
+            to.stack = from.stack;
+        }
 
-    if (typeof from.name === 'string') {
-        to.name = from.name;
-    }
+        return to;
+    };
 
-    if (typeof from.message === 'string') {
-        to.message = from.message;
-    }
-
-    if (typeof from.stack === 'string') {
-        to.stack = from.stack;
-    }
-
-    return to;
-};
     if (typeof value === 'object') {
         return destroyCircular(value, []);
     }

@@ -25,6 +25,14 @@ const test5 = () => {
     });
 };
 
+const test6 = (str: string) => {
+    return str;
+};
+
+const test8 = (pattern: string, obj: any) => {
+    return pattern === obj.target;
+};
+
 injectScript(document, test1)
     .then((response: any) => {
         document.getElementById('test1').innerHTML = JSON.stringify(response);
@@ -59,4 +67,31 @@ injectScript(document, test5)
     .catch((err: any) => {
         console.log(err);
         document.getElementById('test5').innerHTML = JSON.stringify(err);
+    });
+
+injectScript(document, test6, 'hello!!!')
+    .then((response: any) => {
+        document.getElementById('test6').innerHTML = JSON.stringify(response);
+    })
+    .catch((err: any) => {
+        console.log(err);
+        document.getElementById('test6').innerHTML = JSON.stringify(err);
+    });
+
+injectScript(document, test6, 'hell\'o!!!')
+    .then((response: any) => {
+        document.getElementById('test7').innerHTML = JSON.stringify(response);
+    })
+    .catch((err: any) => {
+        console.log(err);
+        document.getElementById('test7').innerHTML = JSON.stringify(err);
+    });
+
+injectScript(document, test8, 'hell\'o!!!', {target: 'hell\'o!!!'})
+    .then((response: any) => {
+        document.getElementById('test8').innerHTML = JSON.stringify(response);
+    })
+    .catch((err: any) => {
+        console.log(err);
+        document.getElementById('test8').innerHTML = JSON.stringify(err);
     });
