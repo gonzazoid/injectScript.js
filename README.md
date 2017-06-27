@@ -7,7 +7,7 @@
 
 The script is designed to work in the content scripts of extensions of chrome/opera/firefox
 
-If we, being in the content script, need to run some code in the user land (content scripts run in their own environment and have access only to the DOM of the open page, but not to the variables and everything happening in the js on the user's side ([read more](https://developer.chrome.com/extensions/content_scripts)), then of course we go to SO and read articles like these:
+If we, being in the content script, need to run some code in the user land (content scripts run in their own environment and have access only to the DOM of the open page, but not to the variables and everything happening in the js on the user's side [ [read more](https://developer.chrome.com/extensions/content_scripts)] ), then of course we go to SO and read articles like these:
 * [Can I add javascript dynamically to an existing script element](https://stackoverflow.com/questions/3619484/can-i-add-javascript-dynamically-to-an-existing-script-element)
 
 * [Adding &lt;script&gt; element to the DOM and have the javascript run?](https://stackoverflow.com/questions/6432984/adding-script-element-to-the-dom-and-have-the-javascript-run)
@@ -15,7 +15,7 @@ If we, being in the content script, need to run some code in the user land (cont
 * [document.createElement(“script”) synchronously](https://stackoverflow.com/questions/3248384/document-createelementscript-synchronously)
 
 After dirty cursing, we write our lib, in which we can transfer the required function (or its source) and parameters, get the result at the output, and if during the execution there was an error - intercept it with the ability to rummage later on the stack.
-We do it naturally on the promises, and it does not matter what the transferred function will return - at the output we get an resolved result. Naturally after the execution, we delete the created script tag - we are neat programmers, are we?
+We do it, surely, with the promises, and it does not matter what the transferred function will return - at the output we get an resolved result. Naturally after the execution, we delete the created script tag - we are neat programmers, are we?
 Well, after all this, we publish the written module that all suffering people could use it for.
 Usage (typescript, add this to content script of your extension, you can also use it when embedding code in a frame):
 
