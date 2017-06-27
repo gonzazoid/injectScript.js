@@ -2,20 +2,25 @@
 
 # injectScript.js
 ### injectScript: (document: Document, func: string | Function, ...params: any[]) => any;
-Скрипт предназначен для работы в контент-скриптах web-extension расширений хрома/оперы/файрфокса
 
-Если нам необходимо, находясь в контент скрипте запустиь какой либо код в user land(а контент скрипты запускаются в своем окружении и имеют доступ только к DOM открытой страницы, но не к переменным и всему происходящему в js на стороне пользователя ([тут подробнее](https://developer.chrome.com/extensions/content_scripts)), то мы конечно идем на SO и читаем статей типа этих:
+[read in russian](/README_ru.md)
+
+The script is designed to work in the content scripts of extensions of chrome/opera/firefox
+
+If we need to run some code in the user land in the content script (such scripts run in their own environment and have access only to the DOM of the open page, but not to the variables and everything happening in the js on the user's side ([read more](https://developer.chrome.com/extensions/content_scripts)), then of course we go to SO and read articles like these:
 * [Can I add javascript dynamically to an existing script element](https://stackoverflow.com/questions/3619484/can-i-add-javascript-dynamically-to-an-existing-script-element)
 
 * [Adding <script> element to the DOM and have the javascript run?](https://stackoverflow.com/questions/6432984/adding-script-element-to-the-dom-and-have-the-javascript-run)
 
 * [document.createElement(“script”) synchronously](https://stackoverflow.com/questions/3248384/document-createelementscript-synchronously)
 
-После, грязно выругавшись пишем свою либу, в котору можно передавать требуемую функцию (или ее исходник) и параметры, получать на выходе результат, а если в ходе исполнения произошла ошибка - перехватывать ее с возможностью покопаться в дальнейшем в стеке.
-Делаем мы ее естественно на промисах, причем неважно что будет возвращать передаваемая функция - на выходе мы получим разрезолвленный результат. Естественно после исполнения мы удаляем созданный тег скрипт - мы же чистоплотные программисты, are we?
-Ну и после всего этого публикуем написанный модуль что бы им могли воспользоваться все страждующие. 
+After dirty cursing, we write our lib, in which we can transfer the required function (or its source) and parameters, get the result at the output, and if during the execution there was an error - intercept it with the ability to rummage later on the stack.
+We do it naturally on the promises, and it does not matter what the transferred function will return - at the output we get an resolved result. Naturally after the execution, we delete the created script tag - we are neat programmers, are we?
+Well, after all this, we publish the written module that all suffering people could use it for.
+Usage (typescript, add this to content script of your extension, you can also use it when embedding code in a frame):
 
-Usage (typescript, add this to content script of your extension, так же можно использовать при внедрении кода во фрейм):
+```npm install -save gonzazoid.injectscript.js```
+
 ```
 import {injectScript} from 'gonzazoid.injectscript.js';
 
@@ -27,8 +32,8 @@ const res = injectScript(document, payload, 'some.test.string');
 console.log(res); // ['some', 'test', 'string']
 ```
 
-или узнать значение переменной (в контент скрипте переменные user space не доступны):
-например узнать версию Jquery:
+or find out the value of a variable (the user space variables are not available in the script content):
+for example, find out the version of JQuery
 ```
 declare var $: any;
 
@@ -44,8 +49,7 @@ injectScript(document, checker)
     });
 
 ```
-или узнать версию Jquery правильно:
-
+or find out the version of Jquery correctly:
 ```
 declare var $: any;
 declare var window: Window;
@@ -64,8 +68,7 @@ const src = sprintf(checker.toString(), {checkOffSource: checkOff.toString()});
 const version = await injectScript(document, src);
 
 ```
-Обратите внимание как мы передаем в user space свои модули - сериализуем их в строку. Не с каждым модулем это пройдет. Смотрите:
-
+Notice how we pass our modules to the user space - we serialize them into a string. Not with each module it will pass. See:
 ```
 const a = function(){
     b();
@@ -78,13 +81,13 @@ module.exports = a;
 
 ```
 
-если мы приведем функцию импортированную из модуля к строке, то получим:
+If we serialize the function imported from the module to the string, we get:
 ```
 const a = function(){
     b();
 }
 ```
-создать из этой строки работоспособную функцию не получится - исходники функции b потеряны. Что бы избежать этого функция a должна быть описана следующим образом:
+You can not create a workable function from this string - the source of function `b` is lost. To avoid this, the function `a` must be described as follows
 
 ```
 const a = function(){
@@ -97,10 +100,11 @@ const a = function(){
 
 module.exports = a;
 ```
-В этом случае можно привести ее к строке, передать в тег script и она нормально сработает в user land.
-Мне например для этого модуля пришлось переписать функцию [serializeError](https://github.com/sindresorhus/serialize-error/blob/master/index.js) взятую с npm пакета [serialize-error](https://www.npmjs.com/package/serialize-error) именно по этой причине - одна из вспомогательных функций описывалась за пределами основной - при импортировании она естественно захватывалась, при сериализации - терялась.
+In this case, you can serialize it to string, put it onto the script tag and it'll properly work in user land.
+It's the reason why for this module I had to rewrite the function [serializeError](https://github.com/sindresorhus/serialize-error/blob/master/index.js) taken from the npm package [serialize-error](https://www.npmjs.com/package/serialize-error) - one of the auxiliary functions was described outside the main one - when imported, it was captured (javascript closures), when serialized it was be lost.
 
-Мы передаем первым параметром document - это сделано для того что бы иметь возможность работать с фреймами а не только с текущим доментом, также это снижает число неявно передаваемых параметров что делает функции ближе к ее математическому определению.
+We pass the `document` as the first parameter - this is done in order to be able to work with frames and not only with the current document, it also reduces the number of implicitly passed parameters that makes the function closer to its mathematical definition.
 
-Описанной техникой можно и читать и писать во все, что есть в user land. Вообще можно сделать биндинг так, что весь юзерленд будет отображаться в переменную контент скрипта (возможно я даже напишу такой модуль) А пока - чем богаты тем и рады :)
+The described technique can both read and write in everything that is in user land. In general, it's possible to make binding so that all userland will be mapped to the variable in the content script. Maybe I'll even write such a module. Later.
+
 Enjoy!!!
